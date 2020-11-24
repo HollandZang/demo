@@ -1,5 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
 group 'com.holland'
@@ -9,6 +11,7 @@ targetCompatibility = '15'
 sourceCompatibility = '15'
 
 def elasticsearch_version = '7.10.0'
+def hadoop_version = '3.2.1'
 
 repositories {
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
@@ -18,15 +21,29 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: "${elasticsearch_version}"
-    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-client
-    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: "${elasticsearch_version}"
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+//    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
+//    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: "${elasticsearch_version}"
+//    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-client
+//    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: "${elasticsearch_version}"
 
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+
+    // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client
+    compile group: 'org.apache.hadoop', name: 'hadoop-client', version: "${hadoop_version}"
+
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
 }

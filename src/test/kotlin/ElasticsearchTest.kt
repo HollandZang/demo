@@ -1,3 +1,4 @@
+/*
 import org.apache.http.HttpHost
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.client.RequestOptions
@@ -7,7 +8,7 @@ import org.elasticsearch.client.indices.CreateIndexRequest
 import org.elasticsearch.common.xcontent.XContentType
 import org.junit.jupiter.api.Test
 
-class AppTest {
+class ElasticsearchTest {
 
     private val client = RestHighLevelClient(
         RestClient.builder(
@@ -72,3 +73,4 @@ class AppTest {
         }
     }
 }
+*/

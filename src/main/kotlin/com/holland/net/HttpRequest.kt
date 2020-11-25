@@ -1,8 +1,7 @@
 package com.holland.net
 
+import com.holland.util.StreamUtils
 import org.jetbrains.annotations.NotNull
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.Proxy
 import java.net.URL
@@ -14,7 +13,8 @@ class HttpRequest {
     }
 
     constructor(url: String, @NotNull proxy: Proxy?) {
-        connection = if (proxy == null) URL(url).openConnection() as HttpURLConnection else URL(url).openConnection(proxy) as HttpURLConnection
+        connection =
+            if (proxy == null) URL(url).openConnection() as HttpURLConnection else URL(url).openConnection(proxy) as HttpURLConnection
     }
 
     private var connection: HttpURLConnection
@@ -44,15 +44,7 @@ class HttpRequest {
 
     fun get(): HttpResponse {
         connection.requestMethod = method
-
-        val bufferedReader = BufferedReader(InputStreamReader(connection.inputStream))
-        var line: String?
-        val responseBody = StringBuilder()
-        while (bufferedReader.readLine().also { line = it } != null) {
-            responseBody.append(line)
-        }
-        connection.inputStream.close()
-        return HttpResponse(connection.headerFields, responseBody.toString())
+        return HttpResponse(connection.headerFields, StreamUtils().stream2String(connection.inputStream))
     }
 
     enum class HttpMethod(s: String) {

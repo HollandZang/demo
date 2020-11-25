@@ -1,5 +1,6 @@
 package com.holland.hadoop
 
+import com.holland.util.StreamUtils
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.apache.hadoop.conf.Configuration
@@ -17,6 +18,7 @@ import java.io.BufferedInputStream
 import java.io.IOException
 import java.net.URI
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 
@@ -24,7 +26,14 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 @RequestMapping("/hadoop")
 class Controller {
-    /*hadoop dfsadmin -safemode leave*/
+
+    @PostMapping("/test")
+    fun test(httpServletRequest: HttpServletRequest):Any {
+        val string = StreamUtils().stream2String(httpServletRequest.inputStream)
+        println(string)
+        return string
+    }
+
     @Value("\${hadoop.url}")
     private val hdfsPath = "hdfs://192.168.73.129:9000"
     private val hdfs: FileSystem = FileSystem.get(URI(hdfsPath), Configuration())
@@ -111,11 +120,5 @@ class Controller {
             e.printStackTrace()
             e.localizedMessage
         }
-    }
-
-    private val wordTables = arrayOf("hello")
-
-    @ApiOperation(value = "分词统计")
-    fun wordAnalyze(input: String, output: String?) {
     }
 }

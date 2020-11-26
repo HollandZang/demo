@@ -1,3 +1,5 @@
+###Hadoop页面地址
+    http://192.168.73.129:9870
 ###启动Hadoop
     sbin/start-dfs.sh
 HDFS守护进程NameNode、SecondaryNameNode、DataNode    
@@ -17,13 +19,13 @@ HDFS守护进程NameNode、SecondaryNameNode和DataNode
 ##
 
 ###随机返回指定行数的样本数据
-    hadoop fs -cat /test/gonganbu/scene_analysis_suggestion/* | shuf -n 5
+    hadoop fs -cat /user/root/output/part-r-00000 | shuf -n 5
 ###返回前几行的样本数据
-    hadoop fs -cat /test/gonganbu/scene_analysis_suggestion/* | head -100
+    hadoop fs -cat /user/root/output/part-r-00000 | head -100
 ###返回最后几行的样本数据
-    hadoop fs -cat /test/gonganbu/scene_analysis_suggestion/* | tail -5
+    hadoop fs -cat /user/root/output/part-r-00000 | tail -5
 ###查看文本行数
-    hadoop fs -cat hdfs://172.16.0.226:8020/test/sys_dict/sysdict_case_type.csv |wc -l
+    hadoop fs -cat /user/root/output/part-r-00000 |wc -l
 ###查看文件大小(单位byte)
-    hadoop fs -du hdfs://172.16.0.226:8020/test/sys_dict/*
-    hadoop fs -count hdfs://172.16.0.226:8020/test/sys_dict/*
+    hadoop fs -du /user/root/output/part-r-00000
+    hadoop fs -count /user/root/output/part-r-00000

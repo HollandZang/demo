@@ -14,32 +14,63 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
-/*fun main() {
+fun main() {
     val hdfsPath = "hdfs://192.168.73.129:9000"
     val hdfs: FileSystem = FileSystem.get(URI(hdfsPath), Configuration())
 
     val job = Job.getInstance(hdfs.conf, "word count")
         .apply {
-//            mapperClass = MyMapper::class.java
-//            reducerClass = MyReducer::class.java
-            mapperClass = TokenizerMapper::class.java
-            reducerClass = IntSumReducer::class.java
-            outputKeyClass = Text::class.java
-            outputValueClass = IntWritable::class.java
+            mapperClass = MyMapper::class.java
+            reducerClass = MyReducer::class.java
+//            mapperClass = TokenizerMapper::class.java
+//            reducerClass = IntSumReducer::class.java
+//            outputKeyClass = Text::class.java
+//            outputValueClass = IntWritable::class.java
+            outputKeyClass = String::class.java
+            outputValueClass = Int::class.java
         }
 
     FileInputFormat.addInputPath(job, Path("input"))
     FileOutputFormat.setOutputPath(job, Path("output"))
 
     println(job.waitForCompletion(true))
-}*/
+}
 
-class MyMapper : Mapper<Text?, IntWritable?, Text?, IntWritable?>() {
+class MyMapper : Mapper<String, Int, String, Int>() {
+    @Override
+    override fun map(key: String?, value: Int?, context: Context?) {
+//        super.map(key, value, context)
+        val stringTokenizer = StringTokenizer(value.toString())
+        if (stringTokenizer.hasMoreTokens()) {
+            context?.write(stringTokenizer.nextToken(), 1)
+        }
+    }
+}
 
+class MyReducer : Reducer<String, Int, String, Int>() {
+    @Override
+    override fun reduce(key: String?, values: MutableIterable<Int>?, context: Context?) {
+//        super.reduce(key, values, context)
+        context?.write(key, values?.count())
+    }
+}
+
+/*class MyMapper : Mapper<Any?, Text, Text?, IntWritable?>() {
+    @Override
+    override fun map(key: Any?, value: Text?, context: Context?) {
+        val stringTokenizer = StringTokenizer(value.toString())
+        if (stringTokenizer.hasMoreTokens()) {
+            context?.write(Text(stringTokenizer.nextToken()), IntWritable(1))
+        }
+    }
 }
 
 class MyReducer : Reducer<Text?, IntWritable?, Text?, IntWritable?>() {
-}
+    @Override
+    override fun reduce(key: Text?, values: MutableIterable<IntWritable?>?, context: Context?) {
+        context?.write(key, values?.count()?.let { IntWritable(it) })
+    }
+}*/
 
 class IntSumReducer :
     Reducer<Text?, IntWritable?, Text?, IntWritable?>() {

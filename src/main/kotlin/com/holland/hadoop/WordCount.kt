@@ -14,7 +14,11 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
-fun main() {
+/*fun main() {
+    wordCount()
+}*/
+
+fun wordCount() {
     val hdfsPath = "hdfs://192.168.73.129:9000"
     val hdfs: FileSystem = FileSystem.get(URI(hdfsPath), Configuration())
 

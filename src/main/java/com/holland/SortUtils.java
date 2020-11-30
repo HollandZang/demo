@@ -31,7 +31,6 @@ public class SortUtils {
     }
 
     /**
-     * todo
      * time complexity(avg): O(n)^2
      * time complexity(worst):O(n)^2
      * time complexity(best): O(n)^2

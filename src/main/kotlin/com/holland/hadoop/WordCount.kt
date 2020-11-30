@@ -1,3 +1,4 @@
+/*
 package com.holland.hadoop
 
 import org.apache.hadoop.conf.Configuration
@@ -14,9 +15,11 @@ import java.io.IOException
 import java.net.URI
 import java.util.*
 
+*/
 /*fun main() {
     wordCount()
-}*/
+}*//*
+
 
 fun wordCount() {
     val hdfsPath = "hdfs://192.168.73.129:9000"
@@ -59,6 +62,7 @@ class MyReducer : Reducer<String, Int, String, Int>() {
     }
 }
 
+*/
 /*class MyMapper : Mapper<Any?, Text, Text?, IntWritable?>() {
     @Override
     override fun map(key: Any?, value: Text?, context: Context?) {
@@ -74,7 +78,8 @@ class MyReducer : Reducer<Text?, IntWritable?, Text?, IntWritable?>() {
     override fun reduce(key: Text?, values: MutableIterable<IntWritable?>?, context: Context?) {
         context?.write(key, values?.count()?.let { IntWritable(it) })
     }
-}*/
+}*//*
+
 
 class IntSumReducer :
     Reducer<Text?, IntWritable?, Text?, IntWritable?>() {
@@ -111,3 +116,4 @@ class TokenizerMapper :
         private val one = IntWritable(1)
     }
 }
+*/

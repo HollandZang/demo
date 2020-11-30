@@ -1,3 +1,4 @@
+/*
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FSDataOutputStream
 import org.apache.hadoop.fs.FileSystem
@@ -33,9 +34,13 @@ class HadoopTest {
         val path = Path("/doc1")
         val contentSummary = hdfs.getContentSummary(path)
         if (hdfs.exists(path)) {
-            /*todo 暂不支持追加文件*/
+            */
+/*todo 暂不支持追加文件*//*
+
             if (contentSummary.length.toInt() > 0) return
-            /*新写入文件*/
+            */
+/*新写入文件*//*
+
             var os: FSDataOutputStream? = null
             try {
                 os = hdfs.append(path)
@@ -54,4 +59,4 @@ class HadoopTest {
         hdfs.copyToLocalFile(false, Path("/doc1"), Path("D:\\"))
         println("OK")
     }
-}
+}*/

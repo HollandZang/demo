@@ -1,3 +1,4 @@
+/*
 package com.holland.hadoop
 
 import io.swagger.annotations.Api
@@ -71,9 +72,13 @@ class Controller {
         var os: FSDataOutputStream? = null
         return try {
             if (hdfs.exists(path)) {
-                /*todo 暂不支持追加文件*/
+                */
+/*todo 暂不支持追加文件*//*
+
                 if (contentSummary.length.toInt() > 0) return "File's Content Is Not Empty...暂不支持追加文件"
-                /*新写入文件*/
+                */
+/*新写入文件*//*
+
                 os = hdfs.append(path)
                 os.write(buff, contentSummary.length.toInt(), buff.size)
                 os.flush()
@@ -113,3 +118,4 @@ class Controller {
         }
     }
 }
+*/

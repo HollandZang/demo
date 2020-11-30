@@ -1,3 +1,4 @@
+/*
 package com.holland.flink
 
 import org.apache.flink.streaming.api.datastream.DataStream
@@ -18,3 +19,4 @@ object WordCount {
     executionEnvironment.execute("My word_count by Kotlin")
   }
 }
+*/

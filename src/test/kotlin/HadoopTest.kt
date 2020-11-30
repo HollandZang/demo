@@ -1,20 +1,13 @@
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.fs.FSDataInputStream
 import org.apache.hadoop.fs.FSDataOutputStream
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
-import org.apache.hadoop.io.Text
 import org.junit.jupiter.api.Test
-import java.io.IOException
 import java.net.URI
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicLong
-import java.util.regex.Pattern
 
 class HadoopTest {
-    /*hadoop dfsadmin -safemode leave*/
-    val hdfsPath = "hdfs://192.168.73.129:9000"
-    val hdfs: FileSystem = FileSystem.get(URI(hdfsPath), Configuration())
+    private val hdfsPath = "hdfs://192.168.73.129:9000"
+    private val hdfs: FileSystem = FileSystem.get(URI(hdfsPath), Configuration())
 
     @Test
     fun create_directory() {
@@ -60,37 +53,5 @@ class HadoopTest {
     fun download_document() {
         hdfs.copyToLocalFile(false, Path("/doc1"), Path("D:\\"))
         println("OK")
-    }
-
-    val wordTables = arrayOf("hello")
-    val separator = arrayOf('\n', '\t', ' ', ',', '.')
-
-    @Test
-    fun wordCount() {
-        val input = "/user/root/input"
-        val output = "/user/root/output"
-        val path = Path(input)
-        return try {
-            if (hdfs.exists(path)) {
-                val listFiles = hdfs.listFiles(path, false)
-                val concurrentHashMap = ConcurrentHashMap<String, AtomicLong>()
-                wordTables.forEach { word -> concurrentHashMap[word] = AtomicLong(0) }
-                while (listFiles.hasNext()) {
-                    val next = listFiles.next()
-                    if (next.isFile) {
-                        val `in`: FSDataInputStream = hdfs.open(next.path)
-                        val readAllBytes = `in`.readAllBytes()
-                        val text = Text(readAllBytes)
-                        val str = text.toString()
-                        val split = str.split(Pattern.compile("\n|\t|\\s|,|\\."))
-
-                    }
-                }
-            } else {
-                println("File Is Not Exists")
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 }

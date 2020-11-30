@@ -7,6 +7,7 @@ import java.net.Proxy
 import java.net.URL
 
 
+@Suppress("unused")
 class HttpRequest {
     constructor(url: String) {
         connection = URL(url).openConnection() as HttpURLConnection
@@ -42,12 +43,12 @@ class HttpRequest {
         mutableList?.set(0, newValue)
     }
 
-    fun get(): HttpResponse {
+    fun execute(): HttpResponse {
         connection.requestMethod = method
-        return HttpResponse(connection.headerFields, StreamUtils().stream2String(connection.inputStream))
+        return HttpResponse(connection.headerFields, StreamUtils.stream2String(connection.inputStream))
     }
 
-    enum class HttpMethod(s: String) {
-        GET("GET"), POST("POST")
+    enum class HttpMethod {
+        GET, POST
     }
 }

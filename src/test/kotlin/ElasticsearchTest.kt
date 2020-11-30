@@ -1,19 +1,19 @@
-/*
 import org.apache.http.HttpHost
 import org.elasticsearch.action.index.IndexRequest
+import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.client.indices.CreateIndexRequest
 import org.elasticsearch.common.xcontent.XContentType
+import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.junit.jupiter.api.Test
 
 class ElasticsearchTest {
 
     private val client = RestHighLevelClient(
         RestClient.builder(
-            HttpHost("localhost", 9200, "http"),
-            HttpHost("localhost", 9201, "http")
+            HttpHost("localhost", 9200, "http")
         )
     )
 
@@ -22,29 +22,6 @@ class ElasticsearchTest {
     @Test
     fun healthy_check() {
         client.ping(RequestOptions.DEFAULT)
-    }
-
-    @Test
-    fun create_index() {
-        val request = CreateIndexRequest(index)
-        request.source(
-            """
-             {
-                    "settings" : {
-                        "number_of_replicas" : 2
-                    },
-                    "properties": {
-                        "content": {
-                            "type": "text",
-                            "analyzer": "ik_max_word",
-                            "search_analyzer": "ik_smart"
-                        }
-                    }
-
-            }
-        """.trimIndent(), XContentType.JSON
-        )
-        client.indices().create(request, RequestOptions.DEFAULT)
     }
 
     @Test
@@ -72,5 +49,37 @@ class ElasticsearchTest {
             }
         }
     }
+
+    @Test
+    fun create_index() {
+        val request = CreateIndexRequest(index)
+        request.source(
+            """
+             {
+                    "settings" : {
+                        "number_of_replicas" : 2
+                    },
+                    "properties": {
+                        "content": {
+                            "type": "text",
+                            "analyzer": "ik_max_word",
+                            "search_analyzer": "ik_smart"
+                        }
+                    }
+
+            }
+        """.trimIndent(), XContentType.JSON
+        )
+        client.indices().create(request, RequestOptions.DEFAULT)
+    }
+
+    @Test
+    fun search_paging() {
+        val source = SearchSourceBuilder()
+            .from(0).size(10)
+        val request: SearchRequest = SearchRequest().source(source).indices(index)
+        val search = client.search(request, RequestOptions.DEFAULT)
+        val hits = search.hits.hits
+        hits.forEach { print(it) }
+    }
 }
-*/

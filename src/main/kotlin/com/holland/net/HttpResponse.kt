@@ -1,14 +1,16 @@
 package com.holland.net
 
-class HttpResponse(originHeader: MutableMap<String, MutableList<String>>, private var body: String) {
-    private val protocol: String
-    private val code: Int
-    private val status: String
-    private val header: MutableMap<String, String> = mutableMapOf()
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+class HttpResponse(originHeader: MutableMap<String, MutableList<String>>, val body: String) {
+    val protocol: String
+    val code: Int
+    val status: String
+    val header: MutableMap<String, String> = mutableMapOf()
 
     init {
-        var split = listOf("", "", "")
+        lateinit var split: List<String>
         originHeader.forEach { (k, v) ->
+            @Suppress("SENSELESS_COMPARISON")
             if (k != null) header[k] = v[0] else split = v[0].split(" ")
         }
         this.protocol = split[0]
@@ -16,15 +18,9 @@ class HttpResponse(originHeader: MutableMap<String, MutableList<String>>, privat
         this.status = split[2]
     }
 
-    fun getProtocol() = this.protocol
-
-    fun getCode() = this.code
-
-    fun getStatus() = this.status
-
-    fun getHeaders() = this.header
-
     fun getHeader(k: String) = this.header[k]
 
-    fun getBody() = this.body
+    override fun toString(): String {
+        return "HttpResponse(body='$body', protocol='$protocol', code=$code, status='$status', header=$header)"
+    }
 }

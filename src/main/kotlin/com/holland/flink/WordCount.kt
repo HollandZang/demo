@@ -1,3 +1,4 @@
+/*
 package com.holland.flink
 
 import org.apache.flink.api.common.functions.FlatMapFunction
@@ -7,9 +8,10 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.util.Collector
 
-/*fun main() {
+fun main() {
     wordCount()
-}*/
+}
+
 
 fun wordCount() {
     val executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment()
@@ -27,3 +29,4 @@ fun wordCount() {
 
     executionEnvironment.execute("My word_count by Kotlin")
 }
+*/

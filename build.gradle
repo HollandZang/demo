@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
-    id 'scala'
+//    id 'scala'
     id 'org.springframework.boot' version '2.3.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
@@ -29,8 +29,8 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
 
-//    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client', version: "${elasticsearch_version}"
-//    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client', version: "${elasticsearch_version}"
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-high-level-client'
+    compile group: 'org.elasticsearch.client', name: 'elasticsearch-rest-client'
 
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
 
@@ -41,10 +41,10 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
-    compile group: 'org.apache.flink', name: 'flink-java', version: "$flink_version"
-    compile group: 'org.apache.flink', name: 'flink-streaming-java_2.11', version: "$flink_version"
-    compile group: 'org.apache.flink', name: 'flink-clients_2.11', version: "$flink_version"
-
-    complie group: 'org.apache.flink', name: 'flink-scala_2.10', version: '1.3.2'
-    complie group: 'org.apache.flink', name: 'flink-streaming-scala_2.10', version: '1.3.2'
+//    compile group: 'org.apache.flink', name: 'flink-java', version: "$flink_version"
+//    compile group: 'org.apache.flink', name: 'flink-streaming-java_2.11', version: "$flink_version"
+//    compile group: 'org.apache.flink', name: 'flink-clients_2.11', version: "$flink_version"
+//
+//    complie group: 'org.apache.flink', name: 'flink-scala_2.10', version: '1.3.2'
+//    complie group: 'org.apache.flink', name: 'flink-streaming-scala_2.10', version: '1.3.2'
 }

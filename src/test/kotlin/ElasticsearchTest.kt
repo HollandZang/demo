@@ -1,3 +1,4 @@
+/*
 import org.apache.http.HttpHost
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.action.search.SearchRequest
@@ -83,3 +84,4 @@ class ElasticsearchTest {
         hits.forEach { print(it) }
     }
 }
+*/

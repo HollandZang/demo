@@ -1,4 +1,4 @@
-package com.holland;
+package com.holland.util;
 
 
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+@SuppressWarnings({"unused", "AliControlFlowStatementWithoutBraces"})
 public class SortUtils {
     /**
      * time complexity(avg): O(n)^2
@@ -16,10 +17,10 @@ public class SortUtils {
      * space complexity: O(1)
      * stability: true
      */
-    public static int[] bubbleSort(@Nullable int[] array) {
+    public static int[] bubbleSort(@Nullable final int[] array) {
         if (array == null) return null;
 
-        int len = array.length - 1;
+        final int len = array.length - 1;
         for (int i = 0; i < len; i++) {
             for (int j = 0; j < len - i; j++) {
                 if (array[j] > array[j + 1]) {
@@ -37,10 +38,10 @@ public class SortUtils {
      * space complexity: O(1)
      * stability: false
      */
-    public static int[] selectionSort(@Nullable int[] array) {
+    public static int[] selectionSort(@Nullable final int[] array) {
         if (array == null) return null;
 
-        int len = array.length - 1;
+        final int len = array.length - 1;
         for (int j = 0; j < len; j++) {
             int minimumIndex = j;
             for (int i = j; i < len; i++) {
@@ -51,23 +52,32 @@ public class SortUtils {
         return array;
     }
 
-    @SuppressWarnings("PrimitiveArrayArgumentToVarargsMethod")
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method sort = SortUtils.class.getMethod("selectionSort", int[].class);
-        int[] a0 = null;
-        //noinspection ConstantConditions
-        System.out.println(Arrays.toString((int[]) sort.invoke(SortUtils.class, a0)));
-        int[] a1 = {};
-        System.out.println(Arrays.toString((int[]) sort.invoke(SortUtils.class, a1)));
-        int[] a2 = {3, 1, 2, 6, 8, 5, 0, 15, 1};
-        System.out.println(Arrays.toString((int[]) sort.invoke(SortUtils.class, a2)));
+//    public static void main(String[] args) throws NoSuchMethodException {
+//        final Method sort = SortUtils.class.getMethod("selectionSort", int[].class);
+//        final int[] a0 = null;
+//        //noinspection ConstantConditions
+//        solution(sort, a0);
+//        final int[] a1 = {};
+//        solution(sort, a1);
+//        final int[] a2 = {3, 1, 2, 6, 8, 5, 0, 15, 1};
+//        solution(sort, a2);
+//    }
+
+    private static void solution(final Method method, final int[] array) {
+        try {
+            //noinspection PrimitiveArrayArgumentToVarargsMethod
+            System.out.println(Arrays.toString((int[]) method.invoke(SortUtils.class, array)));
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            System.out.println(e.getClass().getName());
+            System.exit(-1);
+        }
     }
 
-    private static void swap(@NotNull int[] array, int index) {
+    private static void swap(@NotNull final int[] array, final int index) {
         swap(array, index, index + 1);
     }
 
-    private static void swap(@NotNull int[] array, int index1, int index2) {
+    private static void swap(@NotNull final int[] array, final int index1, final int index2) {
         if (index1 == index2) return;
         array[index1] += array[index2];
         array[index2] = array[index1] - array[index2];

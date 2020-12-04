@@ -1,7 +1,6 @@
 /*
 package com.holland.flink
 
-import org.apache.flink.api.common.functions.FlatMapFunction
 import org.apache.flink.api.java.tuple.Tuple2
 import org.apache.flink.streaming.api.datastream.DataStream
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
@@ -17,12 +16,10 @@ fun wordCount() {
     val executionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment()
     val dataStreamSource: DataStream<String> = executionEnvironment.socketTextStream("192.168.73.129", 8082)
 
-    val flatMap = dataStreamSource.flatMap(FlatMapFunction() { value: String, out: Collector<Tuple2<String, Long>> ->
-//        value.split(" ").forEach { out.collect(Tuple2(it, 1L)) }
-        out.collect(Tuple2(value, 1L))
-    })
-
-    flatMap.keyBy(0)
+    dataStreamSource.flatMap { value: String, out: Collector<Tuple2<String, Long>> ->
+        value.split(" ").forEach { out.collect(Tuple2(it, 1L)) }
+    }
+        .keyBy(0)
         .timeWindow(Time.seconds(5))
         .sum(1)
         .print()

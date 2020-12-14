@@ -39,6 +39,10 @@ dependencies {
             "io.springfox:springfox-swagger-ui:2.9.2",
     )
 
+    compile(
+            fileTree(dir: 'lib', includes: ['*jar'])
+    )
+
 //    compile(
 //            "org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearch_version}",
 //            "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearch_version}"

@@ -69,16 +69,16 @@ public class SortUtils {
         return array;
     }
 
-    public static void main(String[] args) throws NoSuchMethodException {
-        final Method sort = SortUtils.class.getMethod("insertionSort", int[].class);
-        final int[] a0 = null;
-        //noinspection ConstantConditions
-        solution(sort, a0);
-        final int[] a1 = {};
-        solution(sort, a1);
-        final int[] a2 = {3, 1, 2, 6, 8, 5, 0, 15, 1};
-        solution(sort, a2);
-    }
+//    public static void main(String[] args) throws NoSuchMethodException {
+//        final Method sort = SortUtils.class.getMethod("insertionSort", int[].class);
+//        final int[] a0 = null;
+//        //noinspection ConstantConditions
+//        solution(sort, a0);
+//        final int[] a1 = {};
+//        solution(sort, a1);
+//        final int[] a2 = {3, 1, 2, 6, 8, 5, 0, 15, 1};
+//        solution(sort, a2);
+//    }
 
     private static void solution(final Method method, final int[] array) {
         try {

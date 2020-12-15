@@ -39,8 +39,10 @@ dependencies {
             "io.springfox:springfox-swagger-ui:2.9.2",
     )
 
+    /* DataBase */
     compile(
-            fileTree(dir: 'lib', includes: ['*jar'])
+            fileTree(dir: 'lib', includes: ['*jar']),
+            "mysql:mysql-connector-java:8.0.11",
     )
 
 //    compile(
@@ -59,8 +61,8 @@ dependencies {
 //    complie group: 'org.apache.flink', name: 'flink-scala_2.10', version: '1.3.2'
 //    complie group: 'org.apache.flink', name: 'flink-streaming-scala_2.10', version: '1.3.2'
 
-    compile(
-            "org.apache.kafka:kafka-clients:$kafka_version",
-            "org.apache.kafka:kafka-streams:$kafka_version",
-    )
+//    compile(
+//            "org.apache.kafka:kafka-clients:$kafka_version",
+//            "org.apache.kafka:kafka-streams:$kafka_version",
+//    )
 }

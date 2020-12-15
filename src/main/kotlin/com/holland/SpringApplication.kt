@@ -9,6 +9,6 @@ import com.holland.SpringApplication as MyApplication
 @SpringBootApplication
 open class SpringApplication
 
-fun main(args: Array<String>) {
-    SpringApplication.run(MyApplication::class.java, *args)
-}
+//fun main(args: Array<String>) {
+//    SpringApplication.run(MyApplication::class.java, *args)
+//}

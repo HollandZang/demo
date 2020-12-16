@@ -26,8 +26,9 @@ class OracleModelGeneratorImpl(private val dbClient: DBClient) : ModelGenerator 
         val statement = dbClient.connection.prepareStatement("select * from user_tab_comments where Table_Name=?")
         statement.setString(1, dbClient.tableName)
         statement.execute()
-        statement.resultSet.apply { next() }
+        statement.resultSet
             .apply {
+                next()
                 pojoBuilder.append(
                     """
 

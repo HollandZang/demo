@@ -4,7 +4,7 @@ import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager
 
-class DBClient(val url: String, val user: String, val pwd: String, val tableName: String, val `package`: String) {
+class DBClient(val url: String, val user: String, val pwd: String, var tableName: String, val `package`: String) {
     val connection: Connection
 
     private val classPrefix: String
@@ -14,6 +14,7 @@ class DBClient(val url: String, val user: String, val pwd: String, val tableName
         Class.forName(
             if (url.contains("oracle")) {
                 classPrefix = "Oracle"
+                tableName = tableName.toUpperCase()
                 "oracle.jdbc.driver.OracleDriver"
             } else {
                 classPrefix = "Mysql"
@@ -50,11 +51,14 @@ class DBClient(val url: String, val user: String, val pwd: String, val tableName
 }
 
 fun main(args: Array<String>) {
-    DBClient(
-        args[0],
-        args[1],
-        args[2],
-        args[3],
-        args[4]
-    ).generateModel()
+    when (args[0]) {
+        "tables" -> println("todo tables")
+        "generate" -> DBClient(
+            args[1],
+            args[2],
+            args[3],
+            args[4],
+            args[5]
+        ).generateModel()
+    }
 }

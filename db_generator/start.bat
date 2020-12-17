@@ -37,24 +37,36 @@ echo Plz input command ^(input 'helper' to quick started^)^:
 set /p line=
 echo.
 
-@rem sys_command
-if "%line%"=="helper" goto helper
-if "%line%"=="exit" goto end
+setlocal enabledelayedexpansion
+for /f "tokens=1,* delims= " %%a in ("%line%") do (
+    set line=%%b
 
-@rem db_command
-if "%line%"=="tables" goto tables
+    @rem sys_command
+    if "%%a"=="helper" goto helper
+    if "%%a"=="exit" goto end
+
+    @rem db_command
+    if "%%a"=="tables" goto tables
+
+    @rem generate
+    if "%%a"=="generate" goto generate
+
+    echo incurred command
+    echo.
+    goto command
+)
 
 @rem generate
+:generate
 setlocal enabledelayedexpansion
 for /f "tokens=1,* delims= " %%a in ("%line%") do (
     set table_name=%%a
     set params=%%b
-    goto execute
+    goto generate_1
 )
-:execute
+:generate_1
 set command=generate
 call task.bat %command% %url% %user% %pwd% %table_name% %package%
-
 goto command
 
 :helper
@@ -65,5 +77,6 @@ goto command
 :tables
 set command=tables
 call task.bat %command% %url% %user% %pwd%
+goto command
 
 :end

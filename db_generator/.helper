@@ -5,6 +5,6 @@ Helper
        exit       exit this cmd
    Database command:
        tables     get the name of all the tables
-   Generate parameter: <database table name> [params...]
+   Generate parameter: generate <database table name> [params...]
        -a,-all    generate all, include 'pojo', etc...
        -m,-model  generate pojo

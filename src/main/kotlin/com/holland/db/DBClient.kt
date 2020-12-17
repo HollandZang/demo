@@ -51,14 +51,21 @@ class DBClient(val url: String, val user: String, val pwd: String, var tableName
 }
 
 fun main(args: Array<String>) {
+    val client: DBClient
     when (args[0]) {
-        "tables" -> println("todo tables")
-        "generate" -> DBClient(
-            args[1],
-            args[2],
-            args[3],
-            args[4],
-            args[5]
-        ).generateModel()
+        "tables" -> {
+            println("todo tables")
+        }
+        "generate" -> {
+            client = DBClient(
+                args[1],
+                args[2],
+                args[3],
+                args[4],
+                args[5]
+            ).generateModel()
+            if (client.connection.isClosed.not()) client.connection.close()
+            println("connection is ${if (client.connection.isClosed.not()) "not" else ""}closed")
+        }
     }
 }

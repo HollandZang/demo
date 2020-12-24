@@ -42,8 +42,9 @@ for /f "tokens=1,* delims= " %%a in ("%line%") do (
     set line=%%b
 
     @rem sys_command
-    if "%%a"=="helper" goto helper
+    if "%%a"=="help" goto helper
     if "%%a"=="exit" goto end
+    if "%%a"=="quit" goto end
 
     @rem db_command
     if "%%a"=="tables" goto tables
@@ -52,8 +53,7 @@ for /f "tokens=1,* delims= " %%a in ("%line%") do (
     if "%%a"=="generate" goto generate
 
     echo incurred command
-    echo.
-    goto command
+    goto helper
 )
 
 @rem generate
@@ -70,7 +70,8 @@ call task.bat %command% %url% %user% %pwd% %table_name% %package%
 goto command
 
 :helper
-cat ".helper"
+::cat ".helper"
+type ".helper"
 pause
 goto command
 

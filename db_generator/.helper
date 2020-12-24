@@ -1,10 +1,14 @@
 
 Helper
    System command:
-       helper     user guide
-       exit       exit this cmd
+       help     user guide
+       exit, quit       exit this cmd
+
    Database command:
        tables     get the name of all the tables
+
    Generate parameter: generate <database table name> [params...]
+                       (default generate all files)
+
        -a,-all    generate all, include 'pojo', etc...
        -m,-model  generate pojo

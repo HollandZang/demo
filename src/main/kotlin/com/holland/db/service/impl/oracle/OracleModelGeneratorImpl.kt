@@ -16,7 +16,7 @@ class OracleModelGeneratorImpl(private val dbController: DBController) : ModelGe
 
         pojoBuilder.append(
             """
-        package ${dbController.`package`}.pojo;
+        package ${dbController.`package`}.${DBController.pojo};
 
         import lombok.Data;
         import lombok.experimental.Accessors;

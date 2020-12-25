@@ -2,12 +2,18 @@ package com.holland.db.service
 
 import com.holland.db.DBController
 import com.holland.db.FileWriteUtil
+import java.io.File
 
 interface ModelGenerator {
     val className: String
     val pojoBuilder: StringBuilder
 
-    fun execute() = FileWriteUtil.string2File(pojoBuilder, DBController.pojo, className)
+    fun execute() {
+        getModel()
+        FileWriteUtil.string2File(pojoBuilder,
+            DBController.rootPath + File.separatorChar + DBController.pojo,
+            className)
+    }
 
     fun getModel(): ModelGenerator
 }

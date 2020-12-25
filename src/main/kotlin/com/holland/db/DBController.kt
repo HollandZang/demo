@@ -11,7 +11,8 @@ import kotlin.system.exitProcess
 class DBController {
     lateinit var `package`: String
     lateinit var tableName: String
-    lateinit var schema: String
+    var schema: String? = null
+    var dataSource: String? = null
 
     lateinit var connection: Connection
     private lateinit var classPrefix: String
@@ -48,22 +49,22 @@ class DBController {
     fun generateBE() = this.generateModel().generateService()
 
     fun generateModel(): DBController {
-        FileWriteUtil.mkdir(pojo)
+        FileWriteUtil.mkdir("$rootPath${File.separatorChar}${pojo}")
         with(classPrefix) {
             Class.forName("com.holland.db.service.impl.${this.toLowerCase()}.${this}ModelGeneratorImpl")
                 .getDeclaredConstructor(this@DBController::class.java)
                 .newInstance(this@DBController)
                 .apply {
                     this as ModelGenerator
-                    getModel().execute()
+                    execute()
                 }
         }
         return this
     }
 
     fun generateService(): DBController {
-        FileWriteUtil.mkdir(dao)
-        FileWriteUtil.mkdir("$dao${File.separatorChar}impl")
+        FileWriteUtil.mkdir("$rootPath${File.separatorChar}${dao}")
+        FileWriteUtil.mkdir("$rootPath${File.separatorChar}${dao}${File.separatorChar}impl")
         ServiceGenerator(this).initInterface().execute()
         return this
     }
@@ -79,6 +80,7 @@ class DBController {
                 url.contains("oracle") -> {
                     classPrefix = "Oracle"
                     this.tableName = tableName.toUpperCase()
+                    dataSource = "ORACLE"
                     connection = DriverManager.getConnection(url, user, pwd)
                     "oracle.jdbc.driver.OracleDriver"
                 }
@@ -102,33 +104,37 @@ class DBController {
     }
 
     companion object {
-        private const val rootPath = "generate"
-        val pojo = "$rootPath${File.separatorChar}pojo"
-        val dao = "$rootPath${File.separatorChar}service"
+        const val rootPath = "generate"
+        const val pojo = "pojo"
+        const val dao = "service"
     }
 }
 
 fun main(args: Array<String>) {
+    val url = "jdbc:oracle:thin:@11.101.2.36:1521/orcl"
+    val user = "acd_ora"
+    val pwd = "xiaomi"
 //    val url = "jdbc:oracle:thin:@11.101.2.195:1521/orcl"
-//    val pwd = "yb_acd"
 //    val user = "yb_acd"
-//    val url = "jdbc:mysql://11.101.2.195:3306/lw_admin?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai"
+//    val pwd = "yb_acd"
+//    val url =
+//        "jdbc:mysql://11.101.2.195:3306/lw_admin?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai"
 //    val user = "root"
 //    val pwd = "123456"
-//    val `package` = "com.stardon.stardon_main"
-//    val tableName = "acd_file"
-//    DBController(url, user, pwd,`package`,tableName).fetchTables().close()
+    val `package` = "com.stardon.stardon_main"
+    val tableName = "acd_file"
+    DBController(url, user, pwd, `package`, tableName).fetchTables().close()
 
-    when (args[0]) {
-        "tables" -> {
-            DBController(args[1], args[2], args[3])
-                .fetchTables()
-        }
-        "generate" -> {
-            val dbController = DBController(args[1], args[2], args[3], args[4], args[5])
-                .generateModel()
-            dbController
-        }
-        else -> null
-    }?.close()
+//    when (args[0]) {
+//        "tables" -> {
+//            DBController(args[1], args[2], args[3])
+//                .fetchTables()
+//        }
+//        "generate" -> {
+//            val dbController = DBController(args[1], args[2], args[3], args[4], args[5])
+//                .generateModel()
+//            dbController
+//        }
+//        else -> null
+//    }?.close()
 }

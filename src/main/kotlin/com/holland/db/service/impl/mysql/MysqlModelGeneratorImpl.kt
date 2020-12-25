@@ -13,10 +13,9 @@ class MysqlModelGeneratorImpl(private val dbController: DBController) : ModelGen
     override val className: String get() = UPPER_UNDERSCORE.to(UPPER_CAMEL, dbController.tableName)
 
     override fun getModel(): ModelGenerator {
-
         pojoBuilder.append(
             """
-        package ${dbController.`package`}.pojo;
+        package ${dbController.`package`}.${DBController.pojo};
 
         import lombok.Data;
         import lombok.experimental.Accessors;

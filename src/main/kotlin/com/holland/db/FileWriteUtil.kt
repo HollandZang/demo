@@ -20,8 +20,8 @@ object FileWriteUtil {
         when (file.exists()) {
             true -> println("rebuild file: ${file.path}")
             false -> {
-                file.createNewFile()
                 println("create file: ${file.path}")
+                file.createNewFile()
             }
         }
         file.writeText(stringBuilder.toString())

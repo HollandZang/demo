@@ -12,45 +12,12 @@ class ServiceGenerator(private val dbController: DBController) {
     private val className: String = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dbController.tableName)
 
     fun execute() {
-        /* generate interface */
-        StringBuilder(
-            """
-                package ${dbController.`package`}.${DBController.dao};
-        
-                import ${dbController.`package`}.${DBController.pojo}.${className};
-                import ${dbController.`package`}.${DBController.dao}.IService;
-                import org.springframework.stereotype.Service;
-        
-                import com.github.pagehelper.PageInfo;
-                import java.util.List;
-                import java.util.Map;
-        
-                @Service
-                public interface I${className}Service extends IService<${className}> {
-                    @Override
-                    int deleteByPrimaryKey(String key);
-                
-                    @Override
-                    int insertSelective(${className} record);
-                
-                    @Override
-                    $className selectByPrimaryKey(String key);
-                
-                    @Override
-                    int updateByPrimaryKeySelective(${className} record);
-                    
-                    @Override
-                    PageInfo<${className}> selectList(Map<String, String> map);
-                    ${if (dbController.dataSource == "ORACLE") "@Override\n\tLong getNextVal();" else ""}
-                }
-        """.trimIndent()
-        ).let {
-            FileWriteUtil.string2File(it,
-                DBController.rootPath + File.separatorChar + DBController.dao,
-                "I${className}Service")
-        }
+        initInterface()
+        createInterface()
+        createImplementation()
+    }
 
-        /* generate implementation */
+    private fun createImplementation() {
         val instanceName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, className)
         StringBuilder(
             """
@@ -117,7 +84,7 @@ class ServiceGenerator(private val dbController: DBController) {
         }
     }
 
-    fun initInterface(): ServiceGenerator {
+    private fun initInterface() {
         StringBuilder(
             """
                 package ${dbController.`package`}.${DBController.dao};
@@ -151,6 +118,44 @@ class ServiceGenerator(private val dbController: DBController) {
                 DBController.rootPath + File.separatorChar + DBController.dao,
                 "IService")
         }
-        return this
+    }
+
+    private fun createInterface() {
+        StringBuilder(
+            """
+                package ${dbController.`package`}.${DBController.dao};
+        
+                import ${dbController.`package`}.${DBController.pojo}.${className};
+                import ${dbController.`package`}.${DBController.dao}.IService;
+                import org.springframework.stereotype.Service;
+        
+                import com.github.pagehelper.PageInfo;
+                import java.util.List;
+                import java.util.Map;
+        
+                @Service
+                public interface I${className}Service extends IService<${className}> {
+                    @Override
+                    int deleteByPrimaryKey(String key);
+                
+                    @Override
+                    int insertSelective(${className} record);
+                
+                    @Override
+                    $className selectByPrimaryKey(String key);
+                
+                    @Override
+                    int updateByPrimaryKeySelective(${className} record);
+                    
+                    @Override
+                    PageInfo<${className}> selectList(Map<String, String> map);
+                    ${if (dbController.dataSource == "ORACLE") "@Override\n\tLong getNextVal();" else ""}
+                }
+        """.trimIndent()
+        ).let {
+            FileWriteUtil.string2File(it,
+                DBController.rootPath + File.separatorChar + DBController.dao,
+                "I${className}Service")
+        }
     }
 }

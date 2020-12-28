@@ -8,6 +8,7 @@ import com.holland.db.service.ModelTemplate
 /**
  * 集成Spring, Lombok, Swagger
  */
+@Suppress("SqlDialectInspection", "SqlNoDataSourceInspection","unused", "DuplicatedCode", "ConvertTryFinallyToUseCall")
 class MysqlModelGeneratorImpl(private val dbController: DBController) : ModelGenerator {
     override val pojoBuilder = StringBuilder()
     override val className: String get() = UPPER_UNDERSCORE.to(UPPER_CAMEL, dbController.tableName)

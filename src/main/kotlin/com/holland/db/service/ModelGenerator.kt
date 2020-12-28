@@ -18,6 +18,7 @@ interface ModelGenerator {
     fun getModel(): ModelGenerator
 }
 
+@Suppress("MemberVisibilityCanBePrivate")
 class ModelTemplate(
     val columnName: String,
     val dataType: String,

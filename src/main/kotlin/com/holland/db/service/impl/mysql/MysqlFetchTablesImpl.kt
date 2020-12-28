@@ -4,6 +4,7 @@ import com.holland.db.DBController
 import com.holland.db.service.FetchTables
 import com.holland.db.service.TableTemplate
 
+@Suppress("unused", "SqlDialectInspection", "SqlNoDataSourceInspection")
 class MysqlFetchTablesImpl(private val dbController: DBController) : FetchTables {
     override fun execute() {
         val statement =

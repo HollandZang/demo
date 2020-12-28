@@ -8,6 +8,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import kotlin.system.exitProcess
 
+@Suppress("unused", "JoinDeclarationAndAssignment", "MemberVisibilityCanBePrivate")
 class DBController {
     lateinit var `package`: String
     lateinit var tableName: String
@@ -49,7 +50,7 @@ class DBController {
     fun generateBE() = this.generateModel().generateService()
 
     fun generateModel(): DBController {
-        FileWriteUtil.mkdir("$rootPath${File.separatorChar}${pojo}")
+        FileWriteUtil.mkdir("$rootPath${File.separatorChar}$pojo")
         with(classPrefix) {
             Class.forName("com.holland.db.service.impl.${this.toLowerCase()}.${this}ModelGeneratorImpl")
                 .getDeclaredConstructor(this@DBController::class.java)
@@ -63,9 +64,9 @@ class DBController {
     }
 
     fun generateService(): DBController {
-        FileWriteUtil.mkdir("$rootPath${File.separatorChar}${dao}")
-        FileWriteUtil.mkdir("$rootPath${File.separatorChar}${dao}${File.separatorChar}impl")
-        ServiceGenerator(this).initInterface().execute()
+        FileWriteUtil.mkdir("$rootPath${File.separatorChar}$dao")
+        FileWriteUtil.mkdir("$rootPath${File.separatorChar}$dao${File.separatorChar}impl")
+        ServiceGenerator(this).execute()
         return this
     }
 

@@ -16,7 +16,7 @@ object FileWriteUtil {
     }
 
     fun string2File(stringBuilder: StringBuilder, path: String, fileName: String) {
-        val file = File("$path\\$fileName.java")
+        val file = File("$path${File.separatorChar}$fileName.java")
         when (file.exists()) {
             true -> println("rebuild file: ${file.path}")
             false -> {

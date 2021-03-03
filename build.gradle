@@ -47,6 +47,11 @@ dependencies {
             "mysql:mysql-connector-java:8.0.11",
     )
 
+    compile 'com.googlecode.aviator:aviator:5.2.3'
+
+    compile 'redis.clients:jedis:3.5.1'
+    implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.10.0'
+
 //    compile(
 //            "org.elasticsearch.client:elasticsearch-rest-high-level-client:${elasticsearch_version}",
 //            "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearch_version}"

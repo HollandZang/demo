@@ -1,27 +1,44 @@
 package com.holland.util;
 
+import com.google.gson.Gson;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TreeUtil {
 
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        List<TreeEntity> listTree = new ArrayList<>();
-        listTree.add(new TreeEntity(1, "爷", 0, null));
-        listTree.add(new TreeEntity(2, "二爷", 0, null));
-        listTree.add(new TreeEntity(3, "爷-爸", 1, null));
-        listTree.add(new TreeEntity(4, "爷-叔", 1, null));
-        listTree.add(new TreeEntity(5, "二爷-爸", 2, null));
-        listTree.add(new TreeEntity(6, "爷-爸-大儿子", 3, null));
-        listTree.add(new TreeEntity(7, "爷-爸-小儿子", 3, null));
-        listTree.add(new TreeEntity(10, "爷-叔-大儿子", 4, null));
-        listTree.add(new TreeEntity(11, "爷-叔-小儿子", 4, null));
-        listTree.add(new TreeEntity(8, "二爷-爸-大儿子", 5, null));
-        listTree.add(new TreeEntity(9, "二爷-爸-小儿子", 5, null));
+    public static class T {
+        public String orgid;
+        public String pid;
+        public String orgName;
 
-        final List<TreeUtil.Node<TreeEntity>> tree = getTree(listTree, "id", "pid", 0);
+        public T() {
+        }
+
+        public T(String orgid, String pid, String orgName) {
+            this.orgid = orgid;
+            this.pid = pid;
+            this.orgName = orgName;
+        }
+    }
+
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+
+        final String[] strings = FileUtil.INSTANCE.readFile("C:\\Users\\xd\\Documents\\WeChat Files\\z514503337\\FileStorage\\File\\2021-06", "新建文本文档(1).txt");
+        final String json = strings[0];
+        final List list = new Gson().fromJson(json, List.class);
+        final Object collect = list.stream().map(it -> {
+            final Object orgid = ((Map) it).get("ORGID");
+            final Object pid = ((Map) it).get("PID");
+            final Object org_name = ((Map) it).get("ORG_NAME");
+            return new T((String) orgid, (String) pid, (String) org_name);
+        }).collect(Collectors.toList());
+        final List<T> collect1 = (List<T>) collect;
+
+        final List<TreeUtil.Node<T>> tree = getTree(collect1, "orgid", "pid", "510000000000");
         System.out.println((tree));
     }
 
@@ -59,7 +76,7 @@ public class TreeUtil {
      * @throws NoSuchFieldException   示意类中没有这样的属性
      * @throws IllegalAccessException 理论上不会发生
      */
-    public static <T> List<Node<T>> getTree(List<T> list, String propertyId, String propertyPid, Integer topId) throws NoSuchFieldException, IllegalAccessException {
+    public static <T> List<Node<T>> getTree(List<T> list, String propertyId, String propertyPid, String topId) throws NoSuchFieldException, IllegalAccessException {
         final List<Node<T>> result = new ArrayList<>();
         if (null == list || list.isEmpty()) return result;
         final List<Node<T>> restOfNode = new ArrayList<>();
@@ -71,8 +88,8 @@ public class TreeUtil {
             final Field fieldPid = nodeClass.getDeclaredField(propertyPid);
             fieldPid.setAccessible(true);
 
-            final int id = (Integer) fieldId.get(node);
-            final int pid = (Integer) fieldPid.get(node);
+            final String id = (String) fieldId.get(node);
+            final String pid = (String) fieldPid.get(node);
 
             if (topId.equals(pid)) {
                 result.add(new Node<>(id, pid, node));
@@ -93,12 +110,12 @@ public class TreeUtil {
     }
 
     public static class Node<T> {
-        private final Integer id;
-        private final Integer pid;
+        private final String id;
+        private final String pid;
         private final T node;
         private List<Node<T>> childList;
 
-        public Node(int id, int pid, T node) {
+        public Node(String id, String pid, T node) {
             this.id = id;
             this.pid = pid;
             this.node = node;

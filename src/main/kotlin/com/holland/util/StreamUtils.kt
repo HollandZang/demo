@@ -7,7 +7,7 @@ import java.io.InputStreamReader
 
 @Suppress("FunctionName")
 object StreamUtils {
-    fun stream2String(inputStream: InputStream) = String(inputStream.readBytes())
+    fun stream2String(inputStream: InputStream) = String(inputStream.readNBytes(inputStream.available()))
 
     @Deprecated(message = "java's way to convert stream to string", replaceWith = ReplaceWith("stream2String"))
     fun stream2string_java(@NotNull inputStream: InputStream): String {
@@ -18,6 +18,6 @@ object StreamUtils {
             responseBody.append(line)
         }
         inputStream.close()
-        return bufferedReader.toString()
+        return responseBody.toString()
     }
 }

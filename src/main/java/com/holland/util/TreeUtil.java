@@ -99,7 +99,10 @@ public class TreeUtil {
         }
 
         if (result.isEmpty()) return result;
-        return result.stream().peek(node -> node.childList = getChildNode(node, restOfNode)).collect(Collectors.toList());
+        return result
+                .stream()
+                .peek(node -> node.childList = getChildNode(node, restOfNode))
+                .collect(Collectors.toList());
     }
 
     private static <T> List<Node<T>> getChildNode(Node<T> root, List<Node<T>> allListTree) {

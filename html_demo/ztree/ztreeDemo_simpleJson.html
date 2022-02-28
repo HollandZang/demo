@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+    <TITLE> ZTREE DEMO </TITLE>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script src="jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="zTree_v3/js/jquery.ztree.core.js"></script>
+    <SCRIPT type="text/javascript">
+        zTreeNodes = [
+            {id: 0, pId: 0, org_name: "pNode 0"},
+            {id: 1, pId: 0, org_name: "pNode 01"},
+            {id: 11, pId: 1, org_name: "child 11"},
+            {id: 12, pId: 1, org_name: "child 12"},
+            {id: 2, pId: 0, org_name: "pNode 02"},
+            {id: 21, pId: 2, org_name: "child 21"},
+            {id: 22, pId: 2, org_name: "child 22"}
+        ];
+
+        $(document).ready(function () {
+            tree_render(zTreeNodes, 'org_name', 'id', 'pId', treeNode => {
+                console.log(treeNode)
+            })
+        });
+
+        function tree_render(zTreeNodes, name_alias, id_alias, pid_alias, onclick) {
+            const setting = {
+                view: {
+                    selectedMulti: false
+                },
+                callback: {
+                    onClick: tree_node_onclick
+                },
+                data: {
+                    key: {
+                        name: name_alias
+                    },
+                    simpleData: {
+                        enable: true,
+                        idKey: id_alias,
+                        pIdKey: pid_alias,
+                        rootPId: 0
+                    }
+                }
+            }
+
+            $.fn.zTree.init($("#tree"), setting, zTreeNodes);
+
+            function tree_node_onclick(event, treeId, treeNode) {
+                if (typeof (onclick) == "function") {
+                    onclick(treeNode)
+                }
+
+                $('#tree_box').css('display', 'none')
+                $('#tree_input').val(treeNode[name_alias])
+            }
+        }
+
+    </SCRIPT>
+</HEAD>
+
+<BODY>
+<form class="layui-form">
+    <table class="form-table" style="background-color: #316AC5">
+        <tr>
+            <td class="title " style="width: 120px;">
+                树结构：
+            </td>
+            <td>
+                <input id="tree_input" onclick="$('#tree_box').css('display','')" readonly/>
+                <div id="tree_box" style="background-color: whitesmoke; position: absolute; display: none">
+                    <ul id="tree" class="ztree" style="width:230px; overflow:auto;"></ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</BODY>
+</HTML>
